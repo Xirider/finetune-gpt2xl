@@ -121,7 +121,7 @@ model = GPT2LMHeadModel.from_pretrained('finetuned').to(device)
 print("model loaded")
 
 # this is a single input batch
-texts = ["Hello", "Another try", "A third test"]
+texts = ["From off a hill whose concave womb", "Another try", "A third test"]
 
 encoding = tokenizer(texts, padding=True, return_tensors='pt').to(device)
 with torch.no_grad():
