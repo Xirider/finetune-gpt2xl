@@ -36,10 +36,11 @@ gcloud compute instances create gpuserver \
    --preemptible
 ```
 
-After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance (replace ACCOUNTNAME with your sdk accountname): 
+After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance.
+- replace YOURSDKACCOUNT with your sdk account name 
 
 ```markdown
-gcloud compute ssh ACCOUNTNAME@gpuserver
+gcloud compute ssh YOURSDKACCOUNT@gpuserver
 ```
 
 Don't forget to shut down the server once your done, otherwise you will keep getting billed for it.
