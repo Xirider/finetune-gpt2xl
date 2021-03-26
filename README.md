@@ -6,7 +6,7 @@
 
 ## 1. (Optional) Setup VM with V100 in Google Compute Engine
 
-### Requirements (for people who have never used GCE):
+### Requirements
 
 1. Install the Google Cloud SDK: [Click Here](https://cloud.google.com/sdk/docs/install)
 2. Register a Google Cloud Account, create a project and set up billing.
