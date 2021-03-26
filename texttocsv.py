@@ -9,6 +9,8 @@ import csv
 with open('train.csv', mode='w') as csv_file:
     fieldnames = ['text']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+    writer.writeheader()
     writer.writerow({'text': all_text})
 
 
@@ -21,4 +23,6 @@ import csv
 with open('validation.csv', mode='w') as csv_file:
     fieldnames = ['text']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+    writer.writeheader()
     writer.writerow({'text': all_text})
