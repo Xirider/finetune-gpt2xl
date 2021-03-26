@@ -267,15 +267,9 @@ def main():
         )
         if extension == "txt":
             extension = "text"
-        # Also changed from Huggingface's file
-        if extension == "text":
-            datasets = Dataset.from_dict(
-                {"train": Path(data_args.train_file).read_text(), "validation": Path(data_args.validation_file).read_text()})
 
-        else:
-
-            datasets = load_dataset(
-                extension, data_files=data_files)
+        datasets = load_dataset(
+            extension, data_files=data_files)
     # See more about loading any type of standard or custom dataset (from files, python dict, pandas DataFrame, etc) at
     # https://huggingface.co/docs/datasets/loading_datasets.html.
 
