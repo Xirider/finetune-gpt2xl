@@ -11,8 +11,7 @@
 1. Install the Google Cloud SDK: [Click Here](https://cloud.google.com/sdk/docs/install)
 2. Register a Google Cloud Account, create a project and set up billing
 3. Request a quota limit increase for "GPU All Regions" to 1
-4. Log in and initialize the cloud sdk with `gcloud auth` and `login
-gcloud init` 
+4. Log in and initialize the cloud sdk with `gcloud auth login` and `gcloud init` 
 
 ### Create VM
 
