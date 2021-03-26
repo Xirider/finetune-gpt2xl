@@ -269,11 +269,9 @@ def main():
             extension = "text"
         # Also changed from Huggingface's file
         if extension == "text":
-            datasets = {}
-            datasets["train"] = Dataset.from_dict(
-                {"text": Path(data_args.train_file).read_text().splitlines()})
-            datasets["validation"] = Dataset.from_dict(
-                {"text": Path(data_args.validation_file).read_text().splitlines()})
+            datasets = Dataset.from_dict(
+                {"train": Path(data_args.train_file).read_text(), "validation": Path(data_args.validation_file).read_text()})
+
         else:
 
             datasets = load_dataset(
