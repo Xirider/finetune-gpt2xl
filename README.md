@@ -93,7 +93,7 @@ deepspeed --num_gpus=1 run_clm.py \
 
 ```
 
-- This command runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory
+- This command runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory.
 - Training on the Shakespeare example should take about 19 minutes. With gradient accumulation 4 and batch size 4, one gradient step takes about 9 seconds. This means the model training speed should be about 2 examples / second.
 
 ## 4. Generate text with your finetuned model
