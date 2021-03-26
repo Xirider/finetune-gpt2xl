@@ -8,7 +8,7 @@
 
 ### Requirements (for people who have never used GCE):
 
-1. Have the Google Cloud SDK installed [Click Here](https://cloud.google.com/sdk/docs/install)
+1. Have the Google Cloud SDK installed: [Click Here](https://cloud.google.com/sdk/docs/install)
 2. Have an Google Cloud Account registered, billing set up and create a project
 3. You need to request a quota limit increase for "GPU All Regions" to 1
 4. You need to be logged in and initialize the cloud sdk with `gcloud auth` and `login
@@ -43,7 +43,7 @@ After 5 minutes or so (the server needs to install nvidia drivers first), you ca
 gcloud compute ssh ACCOUNTNAME@gpuserver
 ```
 
-Don't forget to shut down the server once your done, otherwise you will keep getting billed for it
+Don't forget to shut down the server once your done, otherwise you will keep getting billed for it.
 
 The next time you can restart the server from the web ui [here](https://console.cloud.google.com/compute/instance)
 
@@ -95,7 +95,7 @@ deepspeed --num_gpus=1 run_clm.py \
 ```
 
 - this runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory
-- Training on the Shakespeare example should take about 19 minutes. With gradient accumulation 4 and batch size 4 one gradient step takes about 9 seconds. This means the model training speed should be about 2 examples / second.
+- Training on the Shakespeare example should take about 19 minutes. With gradient accumulation 4 and batch size 4, one gradient step takes about 9 seconds. This means the model training speed should be about 2 examples / second.
 
 ## 4. Generate text with your finetuned model
 
@@ -135,7 +135,7 @@ print(generated_texts)
 
 - model inference runs on even small gpus or on cpus without any more additional changes
 
-Configuration
+## (Optional) Configuration
 
 You can change the learning rate, weight decay and warmup in the deepspeed ds_config.json file. It uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. You can check all the explanations here:
 
