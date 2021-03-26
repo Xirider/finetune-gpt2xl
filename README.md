@@ -9,15 +9,15 @@
 ### Requirements (for people who have never used GCE):
 
 1. Install the Google Cloud SDK: [Click Here](https://cloud.google.com/sdk/docs/install)
-2. Register a Google Cloud Account, create a project and set up billing
-3. Request a quota limit increase for "GPU All Regions" to 1
-4. Log in and initialize the cloud sdk with `gcloud auth login` and `gcloud init` 
+2. Register a Google Cloud Account, create a project and set up billing.
+3. Request a quota limit increase for "GPU All Regions" to 1.
+4. Log in and initialize the cloud sdk with `gcloud auth login` and `gcloud init` .
 
 ### Create VM
 
-- Replace PROJECTID in the command below with the project id from your GCE project
-- You can remove the preemptible flag, if you want to be sure that google doesn't randomly shut down your instance, but then you will pay about 3x more
-- Why do we need a custom server? We need a GPU server with at least 70 GB RAM, otherwise the run will crash, whenever the script wants to pickle a model. This setup below gives us as much RAM as possible with 12 cpus in GCE. You also can't use more than 12 CPUs with a single V100 GPU in GCE
+- Replace PROJECTID in the command below with the project id from your GCE project.
+- You can remove the preemptible flag, if you want to be sure that google doesn't randomly shut down your instance, but then you will pay about 3x more.
+- We need a GPU server with at least 70 GB RAM, otherwise the run will crash, whenever the script wants to pickle a model. This setup below gives us as much RAM as possible with 12 cpus in GCE. You also can't use more than 12 CPUs with a single V100 GPU in GCE.
 
 Run this to create the instance:
 
@@ -44,7 +44,7 @@ gcloud compute ssh ACCOUNTNAME@gpuserver
 
 Don't forget to shut down the server once your done, otherwise you will keep getting billed for it.
 
-The next time you can restart the server from the web ui [here](https://console.cloud.google.com/compute/instance)
+The next time you can restart the server from the web ui [here](https://console.cloud.google.com/compute/instance).
 
 ## 2. Download script and install libraries
 
@@ -58,7 +58,7 @@ pip install -r requirements.txt
 
 ```
 
-- this installs transformers from source, as the current release doesn't work well with deepspeed
+- This installs transformers from source, as the current release doesn't work well with deepspeed.
 
 (Optional) If you want to use [Wandb.ai](http://wandb.ai) for experiment tracking, you have to login:
 
@@ -93,7 +93,7 @@ deepspeed --num_gpus=1 run_clm.py \
 
 ```
 
-- this runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory
+- This command runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory
 - Training on the Shakespeare example should take about 19 minutes. With gradient accumulation 4 and batch size 4, one gradient step takes about 9 seconds. This means the model training speed should be about 2 examples / second.
 
 ## 4. Generate text with your finetuned model
