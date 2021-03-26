@@ -1,47 +1,18 @@
+import csv
 
-
-# with open('train.txt') as txtfile:
-#     all_text = txtfile.read()
-
-
-# import csv
-
-# # with open('train.csv', mode='w') as csv_file:
-# #     fieldnames = ['text']
-# #     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-# #     writer.writeheader()
-# #     writer.writerow({'text': all_text})
-# with open('train.csv', 'w') as f:
-#     writer = csv.writer(f)
-#     writer.writerow([all_text])
-
-# with open('validation.txt') as txtfile:
-#     all_text = txtfile.read()
-
-
-# with open('validation.csv', 'w') as f:
-#     writer = csv.writer(f)
-#     writer.writerow([all_text])
-# # import csv
-
-# # with open('validation.csv', mode='w') as csv_file:
-# #     fieldnames = ['text']
-# #     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-# #     writer.writeheader()
-# #     writer.writerow({'text': all_text})
-
-import json
-
-with open('train.txt') as txtfile:
+with open('train.txt', encoding='utf-8') as txtfile:
     all_text = txtfile.read()
+with open('train.csv', mode='w', encoding='utf-8') as csv_file:
+    fieldnames = ['text']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow({'text': all_text})
 
-with open('train.json', 'w') as json_file:
-    json.dump({"text": all_text}, json_file)
 
-with open('validation.txt') as txtfile:
+with open('validation.txt', encoding='utf-8') as txtfile:
     all_text = txtfile.read()
-
-with open('validation.json', 'w') as json_file:
-    json.dump({"text": all_text}, json_file)
+with open('validation.csv', mode='w', encoding='utf-8') as csv_file:
+    fieldnames = ['text']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow({'text': all_text})
