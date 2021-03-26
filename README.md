@@ -8,17 +8,17 @@
 
 ### Requirements (for people who have never used GCE):
 
-1. Have the Google Cloud SDK installed: [Click Here](https://cloud.google.com/sdk/docs/install)
-2. Have an Google Cloud Account registered, billing set up and create a project
-3. You need to request a quota limit increase for "GPU All Regions" to 1
-4. You need to be logged in and initialize the cloud sdk with `gcloud auth` and `login
+1. Install the Google Cloud SDK: [Click Here](https://cloud.google.com/sdk/docs/install)
+2. Register a Google Cloud Account, create a project and set up billing
+3. Request a quota limit increase for "GPU All Regions" to 1
+4. Log in and initialize the cloud sdk with `gcloud auth` and `login
 gcloud init` 
 
 ### Create VM
 
-- Replace PROJECTID in the command below with the project id from your gcp project
-- You can remove the preemptible flag, if you want to be sure that google doesn't shut down your instance randomly, but then you will pay about 3x more
-- Why do we need a custom server? We need a GPU server with at least 70 GB normal RAM, otherwise the run will crash, whenever the script wants to pickle a model. This setup below gives us as much RAM as possible with 12 cpus in GCE. You also can't use more than 12 CPUs with a single V100 GPU in GCE
+- Replace PROJECTID in the command below with the project id from your GCE project
+- You can remove the preemptible flag, if you want to be sure that google doesn't randomly shut down your instance, but then you will pay about 3x more
+- Why do we need a custom server? We need a GPU server with at least 70 GB RAM, otherwise the run will crash, whenever the script wants to pickle a model. This setup below gives us as much RAM as possible with 12 cpus in GCE. You also can't use more than 12 CPUs with a single V100 GPU in GCE
 
 Run this to create the instance:
 
@@ -49,7 +49,7 @@ The next time you can restart the server from the web ui [here](https://console.
 
 ## 2. Download script and install libraries
 
-Run this:
+Run this to download the script and to install all libraries:
 
 ```markdown
 git clone https://github.com/Xirider/finetune-gpt2xl.git
