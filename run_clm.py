@@ -26,8 +26,9 @@ import os
 import sys
 from dataclasses import dataclass, field
 from typing import Optional
+from pathlib import Path
 
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 
 import transformers
 from transformers import (
@@ -267,10 +268,16 @@ def main():
         if extension == "txt":
             extension = "text"
         # Also changed from Huggingface's file
-        # if you want to use text without linebreaks, where each text line is a seperate model input, you can set this to false
-        keep_linebreaks = True
-        datasets = load_dataset(
-            extension, data_files=data_files, keep_linebreaks=keep_linebreaks)
+        if extension == "text":
+            datasets = {}
+            datasets["train"] = Dataset.from_dict(
+                {"text": Path(data_args.train_file).read_text().splitlines()})
+            datasets["validation"] = Dataset.from_dict(
+                {"text": Path(data_args.validation_file).read_text().splitlines()})
+        else:
+
+            datasets = load_dataset(
+                extension, data_files=data_files)
     # See more about loading any type of standard or custom dataset (from files, python dict, pandas DataFrame, etc) at
     # https://huggingface.co/docs/datasets/loading_datasets.html.
 
