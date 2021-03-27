@@ -1,4 +1,4 @@
-# Finetune GPT2-XL (1.5 Billion Parameters) and GPT-NEO (2.7 Billion Parameters) on a single 16 GB VRAM V100 Google Cloud instance.
+# Finetune GPT2-XL (1.5 Billion Parameters) and GPT-NEO (2.7 Billion Parameters) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers.
 
 - Easy to run, modify and integrate: Uses the default language modeling script of Huggingface Transformers: run_clm.py with just 2 lines of code added
 - Explains how to setup a preemptible V100 16GB VRAM GPU server with 78 GB CPU RAM on Google Compute Engine. At the time of writing, this configuration only costs about $1.28 / hour in GCE.
@@ -16,7 +16,8 @@
 ### Create VM
 
 - Replace PROJECTID in the command below with the project id from your GCE project.
-- You can remove the preemptible flag, if you want to be sure that google doesn't randomly shut down your instance, but then you will pay about 3x more.
+- You can add the `--preemptible` flag to the command below, this reduces your cost to about 1/3, but Google is then able to shut down your instance at any point.
+- You can change the zone, if there are no ressources available. [Here](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones) is a list of all zones and whether they have V100 GPUs.
 - We need a GPU server with at least 70 GB RAM, otherwise the run will crash, whenever the script wants to pickle a model. This setup below gives us as much RAM as possible with 12 cpus in GCE. You also can't use more than 12 CPUs with a single V100 GPU in GCE.
 
 Run this to create the instance:
@@ -33,7 +34,6 @@ gcloud compute instances create gpuserver \
    --boot-disk-size 200GB \
    --metadata "install-nvidia-driver=True" \
    --accelerator="type=nvidia-tesla-v100,count=1" \
-   --preemptible
 ```
 
 After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance.
@@ -102,9 +102,10 @@ deepspeed --num_gpus=1 run_clm.py \
 
 ## 3. Finetune GPT-NEO (2.7 Billion Parameters)
 
-First install the gpt-neo branch from Huggingface Transformers:
+First uninstall transformers and install the gpt-neo branch from transformers:
 
 ```markdown
+pip uninstall transformers
 pip install git+https://github.com/patil-suraj/transformers.git@gpt-neo
 ```
 
@@ -127,17 +128,19 @@ deepspeed --num_gpus=1 run_clm.py \
 --overwrite_cache \
 --evaluation_strategy="steps" \
 --output_dir finetuned \
+--eval_steps 15 \
 --num_train_epochs 1 \
---gradient_accumulation_steps 4 \
+--gradient_accumulation_steps 1 \
 --per_device_train_batch_size 4 \
 --use_fast_tokenizer False
 ```
 
+- This uses a smaller allgather_bucket_size settings in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower which was necessary for me to finetune the model. There will be still some skipped steps in the beginning but that is normal. The other hyperparameters were changed to be closer to GPT NEO's training [config](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json). With the GPT2 hyperparameters the training was unstable.
+- T
 
+## 4. Generate text with your finetuned GPT2-xl model
 
-## 4. Generate text with your finetuned model
-
-You can test your finetuned model with this script from Huggingface Transfomers (is included in the folder):
+You can test your finetuned GPT2-xl model with this script from Huggingface Transfomers (is included in the folder):
 
 ```markdown
 python run_generation.py --model_type=gpt2 --model_name_or_path=finetuned --length 200
@@ -173,9 +176,45 @@ print(generated_texts)
 
 - model inference runs on even small gpus or on cpus without any more additional changes
 
+
+## 5. Generate text with your finetuned GPT-NEO 2.7 Billion Parameters model
+
+```python
+# from Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
+
+import torch
+from transformers import GPTNeoForCausalLM, GPTNeoTokenizer
+
+model = GPTNeoForCausalLM.from_pretrained("finetuned").to("cuda")
+tokenizer = GPTNeoTokenizer.from_pretrained("finetuned")
+
+text = "From off a hill whose concave"
+ids = tokenizer(text, return_tensors="pt").input_ids.to("cuda")
+
+max_length = 400 + ids.shape[1] # add the length of the prompt tokens to match with the mesh-tf generation
+
+temperature = .9
+do_sample = True
+
+# set seed to reproduce samples
+torch.manual_seed(42) 
+
+gen_tokens = model.generate(
+  ids,
+  do_sample=do_sample,
+  min_length=max_length,
+  max_length=max_length,
+  temperature=temperature,
+  use_cache=False # not supported yet
+)
+gen_text = tokenizer.batch_decode(gen_tokens)[0]
+print(gen_text)
+
+```
+
 ## (Optional) Configuration
 
-You can change the learning rate, weight decay and warmup in the deepspeed ds_config.json file. It uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. You can check all the explanations here:
+You can change the learning rate, weight decay and warmup in the deepspeed ds_config.json file. It uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. Warm up and learning rates are ignored, as the script always uses the Huggingface optimizer default values. If you want to overwrite them you need to use flags. You can check all the explanations here:
 
 [https://huggingface.co/transformers/master/main_classes/trainer.html#deepspeed](https://huggingface.co/transformers/master/main_classes/trainer.html#deepspeed)
 

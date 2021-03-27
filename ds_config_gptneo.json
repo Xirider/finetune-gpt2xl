@@ -3,7 +3,7 @@
         "enabled": true,
         "loss_scale": 0,
         "loss_scale_window": 1000,
-        "initial_scale_power": 1,
+        "initial_scale_power": -3,
         "hysteresis": 2,
         "min_loss_scale": -1000000000
     },
@@ -20,21 +20,21 @@
     "optimizer": {
         "type": "AdamW",
         "params": {
-            "lr": 3e-5,
+            "lr": 0.00001,
             "betas": [
-                0.8,
-                0.999
+                0.9,
+                0.95
             ],
             "eps": 1e-8,
-            "weight_decay": 3e-7
+            "weight_decay": 0.1
         }
     },
     "scheduler": {
         "type": "WarmupLR",
         "params": {
             "warmup_min_lr": 0,
-            "warmup_max_lr": 3e-5,
-            "warmup_num_steps": 50
+            "warmup_max_lr": 0.00001,
+            "warmup_num_steps": 100
         }
     },
     "steps_per_print": 1000,
