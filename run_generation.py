@@ -30,6 +30,8 @@ from transformers import (
     CTRLTokenizer,
     GPT2LMHeadModel,
     GPT2Tokenizer,
+    GPTNeoLMHeadModel,
+    GPTNeoTokenizer,
     OpenAIGPTLMHeadModel,
     OpenAIGPTTokenizer,
     TransfoXLLMHeadModel,
@@ -51,6 +53,7 @@ logger = logging.getLogger(__name__)
 MAX_LENGTH = int(10000)  # Hardcoded max length to avoid infinite loop
 
 MODEL_CLASSES = {
+    "gptneo": (GPTNeoLMHeadModel, GPTNeoTokenizer),
     "gpt2": (GPT2LMHeadModel, GPT2Tokenizer),
     "ctrl": (CTRLLMHeadModel, CTRLTokenizer),
     "openai-gpt": (OpenAIGPTLMHeadModel, OpenAIGPTTokenizer),

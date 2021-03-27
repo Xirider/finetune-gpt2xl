@@ -1,4 +1,4 @@
-# Finetune GPT2-XL (1.5 Billion Parameters) on a single 16 GB VRAM V100 Google Cloud instance.
+# Finetune GPT2-XL (1.5 Billion Parameters) and GPT-NEO (2.7 Billion Parameters) on a single 16 GB VRAM V100 Google Cloud instance.
 
 - Easy to run, modify and integrate: Uses the default language modeling script of Huggingface Transformers: run_clm.py with just 2 lines of code added
 - Explains how to setup a preemptible V100 16GB VRAM GPU server with 78 GB CPU RAM on Google Compute Engine. At the time of writing, this configuration only costs about $1.28 / hour in GCE.
@@ -67,8 +67,9 @@ pip install -r requirements.txt
 wandb login
 ```
 
-## 3. Finetune GPT2-xl
+## 3. Finetune GPT2-xl (1.5 Billion Parameters)
 
+Then add your training data:
 - replace the example train.txt and validation.txt files in the folder with your own training data and then run `python text2csv.py`. This converts your .txt files into one column csv files with a "text" header and puts all the text into a single line. We need to use .csv files instead of .txt files, because Huggingface's dataloader removes line breaks when loading text from a .txt file, which does not happen with the .csv files.
 - If you want to feed the model separate examples instead of one continuous block of text, you need to pack each of your examples into an separate line in the csv train and validation files.
 - Be careful with the encoding of your text. If you don't clean your text files or if just copy text from the web into a text editor, the dataloader from the datasets library might not load them.
@@ -97,6 +98,42 @@ deepspeed --num_gpus=1 run_clm.py \
 
 - This command runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory.
 - Training on the Shakespeare example should take about 17 minutes. With gradient accumulation 2 and batch size 8, one gradient step takes about 9 seconds. This means the model training speed should be almost 2 examples / second. You can go up to batch size of 12 before running out of memory, but that doesn't provide any speedups.
+
+
+## 3. Finetune GPT-NEO (2.7 Billion Parameters)
+
+First install the gpt-neo branch from Huggingface Transformers:
+
+```markdown
+pip install git+https://github.com/patil-suraj/transformers.git@gpt-neo
+```
+
+Then add your training data like you would for GPT2-xl:
+- replace the example train.txt and validation.txt files in the folder with your own training data and then run `python text2csv.py`. This converts your .txt files into one column csv files with a "text" header and puts all the text into a single line. We need to use .csv files instead of .txt files, because Huggingface's dataloader removes line breaks when loading text from a .txt file, which does not happen with the .csv files.
+- If you want to feed the model separate examples instead of one continuous block of text, you need to pack each of your examples into an separate line in the csv train and validation files.
+- Be careful with the encoding of your text. If you don't clean your text files or if just copy text from the web into a text editor, the dataloader from the datasets library might not load them.
+
+Then start the training run with this command:
+
+```markdown
+deepspeed --num_gpus=1 run_clm.py \
+--deepspeed ds_config_gptneo.json \
+--model_name_or_path valhalla/gpt_neo_2.7B \
+--train_file train.csv \
+--validation_file validation.csv \
+--do_train \
+--do_eval \
+--fp16 \
+--overwrite_cache \
+--evaluation_strategy="steps" \
+--output_dir finetuned \
+--num_train_epochs 1 \
+--gradient_accumulation_steps 4 \
+--per_device_train_batch_size 4 \
+--use_fast_tokenizer False
+```
+
+
 
 ## 4. Generate text with your finetuned model
 
