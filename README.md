@@ -143,7 +143,7 @@ print(generated_texts)
 
 ## (CURRENTLY NOT WORKING) Finetune GPT-NEO (2.7 Billion Parameters)
 
-Note that the model fits on the GPU memory + RAM and trains, but the loss always diverges. This might be an issue with the implementation HF transfomers or with the hyperparameters i tried.
+Note that the model fits on the GPU memory + RAM and trains, but the loss always diverges. This might be an issue with the implementation in HF transfomers or with the hyperparameters i tried.
 
 To get it running, first uninstall transformers and install the gpt-neo branch from transformers:
 
