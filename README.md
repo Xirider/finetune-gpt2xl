@@ -16,8 +16,8 @@ Note: The model does run on any server with a GPU with at least 16 GB VRAM and 7
 ### Requirements
 
 1. Install the Google Cloud SDK: [Click Here](https://cloud.google.com/sdk/docs/install)
-2. Register a Google Cloud Account, create a project and set up billing.
-3. Request a quota limit increase for "GPU All Regions" to 1.
+2. Register a Google Cloud Account, create a project and set up billing (only when you set up billing you can use the $300 dollar sign up credit for GPUs).
+3. Request a quota limit increase for "GPU All Regions" to 1. [Here](https://nirbenz.github.io/gce-quota/) is a step by step guide. The UI changed a bit and looks now like [this](https://stackoverflow.com/a/62883281/15447124)
 4. Log in and initialize the cloud sdk with `gcloud auth login` and `gcloud init` .
 
 ### Create VM
