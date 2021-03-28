@@ -43,11 +43,11 @@ gcloud compute instances create gpuserver \
    --accelerator="type=nvidia-tesla-v100,count=1" \
 ```
 
-After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance with the command below. For this to work your default region in the sdk needs to be the same that you used for your instance creation above. If it isn't the same, you can change your default region using `gcloud init` again and selecting "reinitialization".
+After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance with the command below. If you changed the zone, you also will need to change it here.
 - replace YOURSDKACCOUNT with your sdk account name 
 
 ```markdown
-gcloud compute ssh YOURSDKACCOUNT@gpuserver
+gcloud compute ssh YOURSDKACCOUNT@gpuserver --zone=us-central1-a
 ```
 
 Don't forget to shut down the server once your done, otherwise you will keep getting billed for it.
