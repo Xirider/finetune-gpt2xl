@@ -1,4 +1,4 @@
-# Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers.
+# Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers using DeepSpeed
 
 - Easy to run, modify and integrate: Uses the default language modeling script of Huggingface Transformers: run_clm.py with just 2 lines of code added
 - Explains how to setup a preemptible V100 16GB VRAM GPU server with 78 GB CPU RAM on Google Compute Engine. At the time of writing, this configuration only costs about $1.28 / hour in GCE.
