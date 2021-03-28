@@ -153,6 +153,7 @@ To get it running, first uninstall transformers and install the gpt-neo branch f
 
 ```markdown
 pip uninstall transformers
+
 pip install git+https://github.com/patil-suraj/transformers.git@gpt-neo
 ```
 
