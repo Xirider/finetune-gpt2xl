@@ -11,7 +11,7 @@
 
 ## 1. (Optional) Setup VM with V100 in Google Compute Engine
 
-Note: The model does run on any server with a GPU with at least 16 GB VRAM and 60 GB RAM
+Note: The model does run on any server with a GPU with at least 16 GB VRAM and 60 GB RAM. If you use your own server and not the setup described here, you will need to install CUDA and Pytorch on it.
 
 ### Requirements
 
