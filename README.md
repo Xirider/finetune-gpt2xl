@@ -1,9 +1,8 @@
 # Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers using DeepSpeed
 
-Finetuning large language models like GPT2-xl is often difficult, as these models require more VRAM than most GPUs on the market have.
-This guide explains how to finetune GPT2-xl with just one command with the Huggingface Transformers library. The DeepSpeed library and gradient checkpointing is used to lower the required GPU memory usage of the model, so that it can now fit on a single GPU.
+Finetuning large language models like GPT2-xl is often difficult, as these models are too big to fit on most GPUs on the market.
+This guide explains how to finetune GPT2-xl with just one command of the Huggingface Transformers library. The DeepSpeed library and gradient checkpointing are used to lower the required GPU memory usage of the model, so that it can now fit on a single GPU.
 I also explain how to set up a server on Google Cloud with a V100 GPU, that you can use for this.
-
 
 ## 1. (Optional) Setup VM with V100 in Google Compute Engine
 
