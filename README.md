@@ -1,6 +1,6 @@
 # Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers using DeepSpeed
 
-Finetuning large language models like GPT2-xl is often difficult, as these models are too big to fit on most GPUs on the market.
+Finetuning large language models like GPT2-xl is often difficult, as these models are too big to fit on a single GPU.
 
 This guide explains how to finetune GPT2-xl with just one command of the Huggingface Transformers library.
 
