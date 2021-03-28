@@ -18,7 +18,7 @@ Note: The model does run on any server with a GPU with at least 16 GB VRAM and 6
 1. Install the Google Cloud SDK: [Click Here](https://cloud.google.com/sdk/docs/install)
 2. Register a Google Cloud Account, create a project and set up billing (only once you set up billing, you can use the $300 dollar sign up credit for GPUs).
 3. Request a quota limit increase for "GPU All Regions" to 1. [Here](https://nirbenz.github.io/gce-quota/) is a step by step guide. The UI changed a bit and looks now like [this](https://stackoverflow.com/a/62883281/15447124).
-4. Log in and initialize the cloud sdk with `gcloud auth login` and `gcloud init` .
+4. Log in and initialize the cloud sdk with `gcloud auth login` and `gcloud init` and follow the steps until you are set up.
 
 ### Create VM
 
@@ -43,7 +43,7 @@ gcloud compute instances create gpuserver \
    --accelerator="type=nvidia-tesla-v100,count=1" \
 ```
 
-After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance.
+After 5 minutes or so (the server needs to install nvidia drivers first), you can connect to your instance with the command below. For this to work your default region in the sdk needs to be the same that you used for your instance creation above. If it isn't the same, you can change your default region using `gcloud init` again and selecting "reinitialization".
 - replace YOURSDKACCOUNT with your sdk account name 
 
 ```markdown
