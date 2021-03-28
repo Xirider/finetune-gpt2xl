@@ -23,7 +23,7 @@ Note: The model does run on any server with a GPU with at least 16 GB VRAM and 7
 ### Create VM
 
 - Replace PROJECTID in the command below with the project id from your GCE project.
-- You can add the `--preemptible` flag to the command below, this reduces your cost to about 1/3, but Google is then able to shut down your instance at any point.
+- You can add the `--preemptible` flag to the command below, this reduces your cost to about 1/3, but Google is then able to shut down your instance at any point. At the time of writing, this configuration only costs about $1.28 / hour in GCE, when using preemptible.
 - You can change the zone, if there are no ressources available. [Here](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones) is a list of all zones and whether they have V100 GPUs.
 - We need a GPU server with at least 70 GB RAM, otherwise the run will crash, whenever the script wants to pickle a model. This setup below gives us as much RAM as possible with 12 cpus in GCE. You also can't use more than 12 CPUs with a single V100 GPU in GCE.
 
