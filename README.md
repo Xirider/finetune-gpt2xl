@@ -185,6 +185,36 @@ deepspeed --num_gpus=1 run_clm.py \
 
 - This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower, otherwise you will get overflow. There will be still some skipped steps in the beginning but that is normal. The other hyperparameters were changed to be closer to GPT NEO's training [config](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json). With the GPT2 hyperparameters the training was even more unstable.
 
+## Generate text with a GPT-NEO 2.7 Billion Parameters model
+
+load from "finetuned" instead of "valhalla/gpt_neo_2.7B", if you managed to finetune the model
+
+```python
+# credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
+
+from transformers import GPTNeoForCausalLM, GPTNeoTokenizer
+
+model = GPTNeoForCausalLM.from_pretrained("valhalla/gpt_neo_2.7B").to("cuda")
+tokenizer = GPTNeoTokenizer.from_pretrained("valhalla/gpt_neo_2.7B")
+
+text = "From off a hill whose concave"
+ids = tokenizer(text, return_tensors="pt").input_ids.to("cuda")
+
+max_length = 400 + ids.shape[1] # add the length of the prompt tokens to match with the mesh-tf generation
+
+gen_tokens = model.generate(
+  ids,
+  do_sample=True,
+  min_length=max_length,
+  max_length=max_length,
+  temperature=0.9,
+  use_cache=False # not supported yet
+)
+gen_text = tokenizer.batch_decode(gen_tokens)[0]
+print(gen_text)
+
+```
+
 ## (Optional) Configuration
 
 You can change the learning rate, weight decay and warmup as flagas to the training command. The deepspeed config uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. Warm up and learning rates ing the config are ignored, as the script always uses the Huggingface optimizer default values. If you want to overwrite them you need to use flags. You can check all the explanations here:
