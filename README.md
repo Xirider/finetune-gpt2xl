@@ -1,9 +1,9 @@
 # Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers using DeepSpeed
 
-Note:
-- This uses the default language modeling script of Huggingface Transformers: run_clm.py with just 2 lines of code added.
-- I also explain how to setup a preemptible V100 16GB VRAM GPU server with 78 GB CPU RAM on Google Compute Engine. At the time of writing, this configuration only costs about $1.28 / hour in GCE. But you can also use any other server.
-- Uses the Zero Optimizer (stage 2) and Zero-Offload from the Deepspeed library (with the Huggingface integration), which offloads data to RAM and therefore reduces necessary GPU VRAM (this is why you need a server with lots of RAM). It also uses gradient checkpointing  which further decreases GPU memory usage by trading it off with compute. Also uses FP16.
+Finetuning large language models like GPT2-xl is often difficult, as these models require more VRAM than most GPUs on the market have.
+This guide explains how to finetune GPT2-xl with just one command with the Huggingface Transformers library. The DeepSpeed library and gradient checkpointing is used to lower the required GPU memory usage of the model, so that it can now fit on a single GPU.
+I also explain how to set up a server on Google Cloud with a V100 GPU, that you can use for this.
+
 
 ## 1. (Optional) Setup VM with V100 in Google Compute Engine
 
