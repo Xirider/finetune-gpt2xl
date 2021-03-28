@@ -99,7 +99,7 @@ deepspeed --num_gpus=1 run_clm.py \
 
 - This command runs the the standard run_clm.py file from Huggingface's examples with deepspeed, just with 2 lines added to enable gradient checkpointing to use less memory.
 - Training on the Shakespeare example should take about 17 minutes. With gradient accumulation 2 and batch size 8, one gradient step takes about 9 seconds. This means the model training speed should be almost 2 examples / second. You can go up to batch size of 12 before running out of memory, but that doesn't provide any speedups.
-- Note that the default huggingface optimizer hyperparameters and the hyperparameters given as flag, overwrite the hyperparameters given in the ds_config.json file. Therefore if you want to adjust learning rates, warmup and more, you need to set these as flags to the training command. For an example see the example further below with GPT-NEO.
+- Note that the default huggingface optimizer hyperparameters and the hyperparameters given as flag overwrite the hyperparameters in the ds_config.json file. Therefore if you want to adjust learning rates, warmup and more, you need to set these as flags to the training command. For an example you can find further below the training command of GPT-NEO which changes the learning rate.
 
 
 
@@ -183,7 +183,7 @@ deepspeed --num_gpus=1 run_clm.py \
 --warmup_steps 50
 ```
 
-- This uses a smaller allgather_bucket_size settings in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower, otherwise you will get overflow. There will be still some skipped steps in the beginning but that is normal. The other hyperparameters were changed to be closer to GPT NEO's training [config](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json). With the GPT2 hyperparameters the training was even more unstable.
+- This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower, otherwise you will get overflow. There will be still some skipped steps in the beginning but that is normal. The other hyperparameters were changed to be closer to GPT NEO's training [config](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json). With the GPT2 hyperparameters the training was even more unstable.
 
 ## (Optional) Configuration
 
