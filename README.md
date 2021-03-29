@@ -4,7 +4,7 @@
 
 - Finetuning large language models like GPT2-xl is often difficult, as these models are too big to fit on a single GPU.
 - This guide explains how to finetune GPT2-xl with just one command of the Huggingface Transformers library on a single GPU.
-- The DeepSpeed library and gradient checkpointing are used to lower the required GPU memory usage of the model, making this possible.
+- This is made possible by using the DeepSpeed library and gradient checkpointing to lower the required GPU memory usage of the model.
 - I also explain how to set up a server on Google Cloud with a V100 GPU (16GB VRAM), that you can use if you don't have a GPU.
 
 
