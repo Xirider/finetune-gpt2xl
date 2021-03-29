@@ -50,9 +50,9 @@ After 5 minutes or so (the server needs to install nvidia drivers first), you ca
 gcloud compute ssh YOURSDKACCOUNT@gpuserver --zone=us-central1-a
 ```
 
-Don't forget to shut down the server once your done, otherwise you will keep getting billed for it.
+Don't forget to shut down the server once your done, otherwise you will keep getting billed for it. This can be done [here](https://console.cloud.google.com/compute/instance).
 
-The next time you can restart the server from the web ui [here](https://console.cloud.google.com/compute/instance).
+The next time you can restart the server from the same web ui [here](https://console.cloud.google.com/compute/instance).
 
 ## 2. Download script and install libraries
 
