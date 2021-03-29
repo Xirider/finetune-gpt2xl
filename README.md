@@ -224,7 +224,7 @@ print(gen_text)
 
 ## (Optional) Configuration
 
-You can change the learning rate, weight decay and warmup as flagas to the training command. The deepspeed config uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. Warm up and learning rates ing the config are ignored, as the script always uses the Huggingface optimizer default values. If you want to overwrite them you need to use flags. You can check all the explanations here:
+You can change the learning rate, weight decay and warmup as flags to the training command. The deepspeed config uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. Warm up and learning rates ing the config are ignored, as the script always uses the Huggingface optimizer default values. If you want to overwrite them you need to use flags. You can check all the explanations here:
 
 [https://huggingface.co/transformers/master/main_classes/trainer.html#deepspeed](https://huggingface.co/transformers/master/main_classes/trainer.html#deepspeed)
 
