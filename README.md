@@ -149,7 +149,7 @@ print(generated_texts)
 
 ## (CURRENTLY NOT WORKING) Finetune GPT-NEO (2.7 Billion Parameters)
 
-Note that the model fits on the GPU memory + RAM and trains, but the loss always diverges. This might be an issue with the implementation in HF transfomers or with the hyperparameters i tried.
+Note that the model fits on the GPU memory + RAM and trains, but the loss always diverges. The model implementation of GPT-NEO from Huggingface is not finished. I will update this once it is finished and it works.
 
 To get it running, first uninstall transformers and install the gpt-neo branch from transformers:
 
@@ -193,6 +193,8 @@ deepspeed --num_gpus=1 run_clm.py \
 - This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower, otherwise you will get overflow. There will be still some skipped steps in the beginning but that is normal. The other hyperparameters were changed to be closer to GPT NEO's training [config](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json). With the GPT2 hyperparameters the training was even more unstable.
 
 ## Generate text with a GPT-NEO 2.7 Billion Parameters model
+
+The GPT-NEO implementation in Huggingface transformers in not finished. I will update this once it works.
 
 load from "finetuned" instead of "valhalla/gpt_neo_2.7B", if you managed to finetune the model
 
