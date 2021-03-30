@@ -36,7 +36,7 @@ gcloud compute instances create gpuserver \
    --custom-cpu 12 \
    --custom-memory 78 \
    --maintenance-policy TERMINATE \
-   --image-family pytorch-latest-gpu \
+   --image-family pytorch-1-7-cu110 \
    --image-project deeplearning-platform-release \
    --boot-disk-size 200GB \
    --metadata "install-nvidia-driver=True" \
