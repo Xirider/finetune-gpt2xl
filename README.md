@@ -149,7 +149,7 @@ print(generated_texts)
 
 ## Finetune GPT-NEO (2.7 Billion Parameters)
 
-This works now. 
+This works now. I tested it with a server with one V100 GPU (16 GB VRAM) and 78 GB normal RAM.
 
 Add your training data like you would for GPT2-xl:
 - replace the example train.txt and validation.txt files in the folder with your own training data and then run `python text2csv.py`. This converts your .txt files into one column csv files with a "text" header and puts all the text into a single line. We need to use .csv files instead of .txt files, because Huggingface's dataloader removes line breaks when loading text from a .txt file, which does not happen with the .csv files.
