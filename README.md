@@ -182,9 +182,7 @@ deepspeed --num_gpus=1 run_clm.py \
 
 ## Generate text with a GPT-NEO 2.7 Billion Parameters model
 
-The GPT-NEO implementation in Huggingface transformers in not finished. I will update this once it works.
-
-load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you managed to finetune the model
+load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you finetuned the model
 
 ```python
 # credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
