@@ -32,7 +32,7 @@ Run this to create the instance:
 ```markdown
 gcloud compute instances create gpuserver \
    --project YOURPROJECTID \
-   --zone us-central1-a \
+   --zone us-west1-b \
    --custom-cpu 12 \
    --custom-memory 78 \
    --maintenance-policy TERMINATE \
@@ -47,7 +47,7 @@ After 5 minutes or so (the server needs to install nvidia drivers first), you ca
 - replace YOURSDKACCOUNT with your sdk account name 
 
 ```markdown
-gcloud compute ssh YOURSDKACCOUNT@gpuserver --zone=us-central1-a
+gcloud compute ssh YOURSDKACCOUNT@gpuserver --zone=us-west1-b
 ```
 
 Don't forget to shut down the server once your done, otherwise you will keep getting billed for it. This can be done [here](https://console.cloud.google.com/compute/instance).
