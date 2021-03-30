@@ -175,7 +175,7 @@ deepspeed --num_gpus=1 run_clm.py \
 --gradient_accumulation_steps 2 \
 --per_device_train_batch_size 4 \
 --use_fast_tokenizer False \
---learning_rate 1e-05 \
+--learning_rate 5e-06 \
 --warmup_steps 10
 ```
 
