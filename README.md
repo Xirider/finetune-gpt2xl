@@ -175,11 +175,8 @@ deepspeed --num_gpus=1 run_clm.py \
 --gradient_accumulation_steps 2 \
 --per_device_train_batch_size 4 \
 --use_fast_tokenizer False \
---learning_rate 1e-05 \
---adam_beta1 0.9 \
---adam_beta2 0.95 \
---weight_decay 0.1 \
---warmup_steps 50
+--learning_rate 1e-06 \
+--warmup_steps 10
 ```
 
 - This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower, otherwise you will get overflow. There will be still some skipped steps in the beginning but that is normal. The other hyperparameters were changed to be closer to GPT NEO's training [config](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json). With the GPT2 hyperparameters the training was even more unstable.
