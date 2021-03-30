@@ -189,13 +189,13 @@ load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you managed to fi
 ```python
 # credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
 
-from transformers import GPTNeoForCausalLM, GPTNeoTokenizer
+from transformers import GPTNeoForCausalLM, , AutoTokenizer
 
 model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to("cuda").half()
-tokenizer = GPTNeoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
+tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
 
 text = "From off a hill whose concave"
-ids = tokenizer(text, return_tensors="pt").input_ids
+ids = tokenizer(text, return_tensors="pt").input_ids.to("cuda")
 
 max_length = 400 + ids.shape[1] # add the length of the prompt tokens to match with the mesh-tf generation
 
