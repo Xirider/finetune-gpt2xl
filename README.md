@@ -184,7 +184,7 @@ deepspeed --num_gpus=1 run_clm.py \
 
 ## Generate text with a GPT-NEO 2.7 Billion Parameters model
 
-I provided a script, that allows you to interactively prompt your GPT-NEO model. If you just want to sample from the pretrained model without finetuning yourself replace "finetuned" with "EleutherAI/gpt-neo-2.7B". Start it with this:
+I provided a script, that allows you to interactively prompt your GPT-NEO model. If you just want to sample from the pretrained model without finetuning it yourself, replace "finetuned" with "EleutherAI/gpt-neo-2.7B". Start it with this:
 
 ```markdown
 python run_generate_neo.py finetuned
