@@ -189,7 +189,7 @@ load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you managed to fi
 ```python
 # credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
 
-from transformers import GPTNeoForCausalLM, , AutoTokenizer
+from transformers import GPTNeoForCausalLM, AutoTokenizer
 
 model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to("cuda").half()
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
