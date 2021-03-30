@@ -149,7 +149,7 @@ print(generated_texts)
 
 ## Finetune GPT-NEO (2.7 Billion Parameters)
 
-This works now. I tested it with a server with one V100 GPU (16 GB VRAM) and 78 GB normal RAM.
+This works now. I tested it with a server with one V100 GPU (16 GB VRAM) and 78 GB normal RAM, but it might not actually need that much RAM.
 
 Add your training data like you would for GPT2-xl:
 - replace the example train.txt and validation.txt files in the folder with your own training data and then run `python text2csv.py`. This converts your .txt files into one column csv files with a "text" header and puts all the text into a single line. We need to use .csv files instead of .txt files, because Huggingface's dataloader removes line breaks when loading text from a .txt file, which does not happen with the .csv files.
@@ -220,7 +220,7 @@ print(gen_text)
 
 ## (Optional) Configuration
 
-You can change the learning rate, weight decay and warmup as flags to the training command. The deepspeed config uses the default settings, except for a reduced allgather_bucket_size and reduced reduce_bucket_size, to save even more gpu memory. Warm up and learning rates in the config are ignored, as the script always uses the Huggingface optimizer/trainer default values. If you want to overwrite them you need to use flags. You can check all the explanations here:
+You can change the learning rate, weight decay and warmup by setting them as flags to the training command. Warm up and learning rates in the config are ignored, as the script always uses the Huggingface optimizer/trainer default values. If you want to overwrite them you need to use flags. You can check all the explanations here:
 
 [https://huggingface.co/transformers/master/main_classes/trainer.html#deepspeed](https://huggingface.co/transformers/master/main_classes/trainer.html#deepspeed)
 
