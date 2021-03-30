@@ -147,9 +147,8 @@ print(generated_texts)
 
 - model inference runs on even small gpus or on cpus without any more additional changes
 
-## (CURRENTLY NOT WORKING) Finetune GPT-NEO (2.7 Billion Parameters)
+## Finetune GPT-NEO (2.7 Billion Parameters)
 
-Note that the model fits on the GPU memory + RAM and trains, but the loss always diverges. The model implementation of GPT-NEO from Huggingface is not finished. I will update this once it is finished and it works.
 
 Add your training data like you would for GPT2-xl:
 - replace the example train.txt and validation.txt files in the folder with your own training data and then run `python text2csv.py`. This converts your .txt files into one column csv files with a "text" header and puts all the text into a single line. We need to use .csv files instead of .txt files, because Huggingface's dataloader removes line breaks when loading text from a .txt file, which does not happen with the .csv files.
@@ -170,12 +169,12 @@ deepspeed --num_gpus=1 run_clm.py \
 --overwrite_cache \
 --evaluation_strategy="steps" \
 --output_dir finetuned \
---num_train_epochs 2 \
+--num_train_epochs 1 \
 --eval_steps 15 \
 --gradient_accumulation_steps 2 \
 --per_device_train_batch_size 4 \
 --use_fast_tokenizer False \
---learning_rate 1e-06 \
+--learning_rate 1e-05 \
 --warmup_steps 10
 ```
 
