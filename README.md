@@ -191,7 +191,7 @@ load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you finetuned the
 
 from transformers import GPTNeoForCausalLM, AutoTokenizer
 
-model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to("cuda").half()
+model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to("cuda")
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
 
 text = "From off a hill whose concave"
