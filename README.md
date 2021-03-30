@@ -169,7 +169,7 @@ Then start the training run this command:
 ```markdown
 deepspeed --num_gpus=1 run_clm.py \
 --deepspeed ds_config_gptneo.json \
---model_name_or_path EleutherAI/gpt_neo_2-7B \
+--model_name_or_path EleutherAI/gpt-neo-2.7B \
 --train_file train.csv \
 --validation_file validation.csv \
 --do_train \
@@ -196,15 +196,15 @@ deepspeed --num_gpus=1 run_clm.py \
 
 The GPT-NEO implementation in Huggingface transformers in not finished. I will update this once it works.
 
-load from "finetuned" instead of "EleutherAI/gpt_neo_2-7B", if you managed to finetune the model
+load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you managed to finetune the model
 
 ```python
 # credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
 
 from transformers import GPTNeoForCausalLM, GPTNeoTokenizer
 
-model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt_neo_2-7B").to("cuda").half()
-tokenizer = GPTNeoTokenizer.from_pretrained("EleutherAI/gpt_neo_2-7B")
+model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to("cuda").half()
+tokenizer = GPTNeoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
 
 text = "From off a hill whose concave"
 ids = tokenizer(text, return_tensors="pt").input_ids
