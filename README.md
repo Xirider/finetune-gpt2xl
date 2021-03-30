@@ -184,15 +184,15 @@ deepspeed --num_gpus=1 run_clm.py \
 
 ## Generate text with a GPT-NEO 2.7 Billion Parameters model
 
-load from "finetuned" instead of "EleutherAI/gpt-neo-2.7B", if you finetuned the model
+Use this to generate text from your finetuned model. If you just want to sample from the model without finetuning replace "finetuned" with "EleutherAI/gpt-neo-2.7B" in the following code.
 
 ```python
 # credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
 
 from transformers import GPTNeoForCausalLM, AutoTokenizer
 
-model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to("cuda")
-tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
+model = GPTNeoForCausalLM.from_pretrained("finetuned").to("cuda")
+tokenizer = AutoTokenizer.from_pretrained("finetuned")
 
 text = "From off a hill whose concave"
 ids = tokenizer(text, return_tensors="pt").input_ids.to("cuda")
