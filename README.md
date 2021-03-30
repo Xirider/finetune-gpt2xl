@@ -179,8 +179,8 @@ deepspeed --num_gpus=1 run_clm.py \
 --warmup_steps 10
 ```
 
-- This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory. Also the loss scaling is set up to go lower, otherwise you will get overflow. There will be still some skipped steps in the beginning but that is normal. 
-- You might want to change hyperparameters to be closer to the orignal EleutherAi training config [here](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json).
+- This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory.
+- You might want to change and try hyperparameters to be closer to the orignal EleutherAi training config. You can find these [here](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json).
 
 ## Generate text with a GPT-NEO 2.7 Billion Parameters model
 
