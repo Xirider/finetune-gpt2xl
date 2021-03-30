@@ -1,4 +1,4 @@
-# Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers using DeepSpeed
+# Guide: Finetune GPT2-XL (1.5 Billion Parameters, the biggest model) and GPT-NEO (2.7 Billion Parameters) on a single 16 GB VRAM V100 Google Cloud instance with Huggingface Transformers using DeepSpeed
 
 
 
