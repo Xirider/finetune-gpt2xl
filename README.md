@@ -152,7 +152,7 @@ This works now. I tested it with a server with one V100 GPU (16 GB VRAM) and 78 
 
 Add your training data like you would for GPT2-xl:
 - replace the example train.txt and validation.txt files in the folder with your own training data with the same names and then run `python text2csv.py`. This converts your .txt files into one column csv files with a "text" header and puts all the text into a single line. We need to use .csv files instead of .txt files, because Huggingface's dataloader removes line breaks when loading text from a .txt file, which does not happen with the .csv files.
-- If you want to feed the model separate examples instead of one continuous block of text, you need to pack each of your examples into an separate line in the csv train and validation files.
+- If you want to feed the model separate examples instead of one continuous block of text, you need to modify the function `group_texts` in `run_clm.py` .
 - Be careful with the encoding of your text. If you don't clean your text files or if just copy text from the web into a text editor, the dataloader from the datasets library might not load them.
 
 - Be sure to either login into wandb.ai with `wandb login` or uninstall it completely. Otherwise it might cause a memory error during the run.
