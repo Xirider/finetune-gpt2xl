@@ -1,4 +1,4 @@
-git+git://github.com/huggingface/transformers
-datasets
+transformers==4.7.0
+datasets==1.8.0
 wandb
-deepspeed
+deepspeed==0.4.0
