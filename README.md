@@ -67,8 +67,6 @@ pip install -r requirements.txt
 
 ```
 
-- This installs transformers from source, as the current release doesn't work well with deepspeed.
-
 (Optional) If you want to use [Wandb.ai](http://wandb.ai) for experiment tracking, you have to login:
 
 ```markdown
