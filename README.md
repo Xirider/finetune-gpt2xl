@@ -23,7 +23,7 @@ Note: The GPT2-xl model does run on any server with a GPU with at least 16 GB VR
 ### Create VM
 
 - Replace YOURPROJECTID in the command below with the project id from your GCE project.
-- You can remove the `--preemptible` flag from the command below, but keeping it reduces your cost to about 1/3 and allows Google to shut down your instance at any point. At the time of writing, this configuration only costs about $1.28 / hour in GCE, when using preemptible.
+- You can remove the `--preemptible` flag from the command below, but keeping it reduces your cost to about 1/3 and allows Google to shut down your instance at any point. At the time of writing, this configuration only costs about $1.28 / hour in GCE, when using preemptible. Depending on the size of your dataset, finetuning usually only takes a few hours.
 - You can change the zone, if there are no ressources available. [Here](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones) is a list of all zones and whether they have V100 GPUs. Depending on the time of the day you might need to try out a few. Usually there are also more server available if you keep the `--preemptible` flag
 - We need a GPU server with at least 60 GB RAM, otherwise the run will crash, whenever the script wants to save/pickle a model. This setup below gives us as much RAM as possible with 12 CPU cores in GCE (without paying for extended memory). You also can't use more than 12 CPU cores with a single V100 GPU in GCE.
 
@@ -182,6 +182,7 @@ deepspeed --num_gpus=1 run_clm.py \
 
 - This uses a smaller "allgather_bucket_size" setting in the ds_config_gptneo.json file and a smaller batch size to further reduce gpu memory.
 - You might want to change and try hyperparameters to be closer to the orignal EleutherAi training config. You can find these [here](https://github.com/EleutherAI/gpt-neo/blob/master/configs/gpt3_2-7B_256.json).
+- If you want to try train on a GPU with less VRAM or your machine doesn't have 70 GB RAM, you could try to set `--per_device_train_batch_size` to 1 and `--gradient_accumulation_steps` to 8. You can also then try to reduce the values for "allgather_bucket_size" and "reduce_bucket_size" in the ds_config_gptneo.json file to 5e7.
 
 ## Generate text with a GPT-NEO 2.7 Billion Parameters model
 
@@ -194,27 +195,33 @@ python run_generate_neo.py finetuned
 Or use this snippet to generate text from your finetuned model within your code:
 
 ```python
-# credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified
+# credit to Suraj Patil - https://github.com/huggingface/transformers/pull/10848 - modified to create multiple texts and use deepspeed inference
 
 from transformers import GPTNeoForCausalLM, AutoTokenizer
+import deepspeed
 
-model = GPTNeoForCausalLM.from_pretrained("finetuned").to("cuda")
+# casting to fp16 "half" gives a large speedup during model loading
+model = GPTNeoForCausalLM.from_pretrained("finetuned").half().to("cuda")
 tokenizer = AutoTokenizer.from_pretrained("finetuned")
 
-text = "From off a hill whose concave"
-ids = tokenizer(text, return_tensors="pt").input_ids.to("cuda")
+# using deepspeed inference is optional: it gives about a 2x speed up
+deepspeed.init_inference(model, mp_size=1, dtype=torch.half, replace_method='auto')
 
-max_length = 400 + ids.shape[1] # add the length of the prompt tokens to match with the mesh-tf generation
+texts = ["From off a hill whose concave", "Paralell text 2"]
+
+ids = tokenizer(texts, padding=padding, return_tensors="pt").input_ids.to("cuda")
+
 
 gen_tokens = model.generate(
   ids,
   do_sample=True,
-  min_length=max_length,
-  max_length=max_length,
-  temperature=0.9,
+  min_length=0,
+  max_length=200,
+  temperature=1.0,
+  top_p=0.8,
   use_cache=True
 )
-gen_text = tokenizer.batch_decode(gen_tokens)[0]
+gen_text = tokenizer.batch_decode(gen_tokens)
 print(gen_text)
 
 ```
