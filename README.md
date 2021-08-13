@@ -144,7 +144,7 @@ generated_texts = tokenizer.batch_decode(
 print(generated_texts)
 ```
 
-- model inference runs on even small gpus or on cpus without any more additional changes
+- model inference runs on even small gpus or on cpus without any additional changes
 
 ## Finetune GPT-NEO (2.7 Billion Parameters)
 
