@@ -103,6 +103,13 @@ class ModelArguments:
             "with private models)."
         },
     )
+    separated_samples_max_length: int = field(
+        default=0,
+        metadata={
+            "help": "max length of separated samples for padding and trucking"
+        },
+    )
+
 
 
 @dataclass
@@ -205,6 +212,7 @@ def main():
                 f"Checkpoint detected, resuming training at {last_checkpoint}. To avoid this behavior, change "
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
+
 
     # Setup logging
     logging.basicConfig(
@@ -343,8 +351,17 @@ def main():
         column_names = datasets["validation"].column_names
     text_column_name = "text" if "text" in column_names else column_names[0]
 
+
     def tokenize_function(examples):
-        return tokenizer(examples[text_column_name])
+        if model_args.separated_samples_max_length:
+            # NEEDED IF PADDING use eos. pad_token doens't work for some reason
+            tokenizer.pad_token = tokenizer.eos_token
+            # Set max length should be under 2500
+            if model_args.separated_samples_max_length <= 0:
+                model_args.separated_samples_max_length = 1024
+            return tokenizer(examples[text_column_name], padding=True, truncation=True, max_length=model_args.separated_samples_max_length)
+        else:
+            return tokenizer(examples[text_column_name])
 
     tokenized_datasets = datasets.map(
         tokenize_function,
@@ -372,12 +389,17 @@ def main():
 
     # Main data processing function that will concatenate all texts from our dataset and generate chunks of block_size.
     def group_texts(examples):
+        if model_args.separated_samples_max_length:
+            examples['labels'] = examples['input_ids'].copy()
+            return examples
+
         # Concatenate all texts.
         concatenated_examples = {
             k: sum(examples[k], []) for k in examples.keys()}
         total_length = len(concatenated_examples[list(examples.keys())[0]])
         # We drop the small remainder, we could add padding if the model supported it instead of this drop, you can
         # customize this part to your needs.
+
         total_length = (total_length // block_size) * block_size
         # Split by chunks of max_len.
         result = {
