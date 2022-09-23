@@ -1,4 +1,4 @@
 transformers==4.7.0
 datasets==1.8.0
 wandb
-deepspeed==0.4.0
+deepspeed
