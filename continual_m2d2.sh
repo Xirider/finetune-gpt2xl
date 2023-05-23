@@ -11,7 +11,8 @@ for idx in "${!datasets[@]}"; do
   deepspeed --num_gpus=1 run_clm.py \
   --deepspeed ds_config.json \
   --model_name_or_path gpt2-large \
-  --dataset_name "$dataset_name" \
+  --dataset_name "m2d2" \
+  --dataset_config_name "$dataset_name" \
   --do_train \
   --do_eval \
   --fp16 \
@@ -22,5 +23,8 @@ for idx in "${!datasets[@]}"; do
   --num_train_epochs 1 \
   --gradient_accumulation_steps 2 \
   --per_device_train_batch_size 8
+  
+  python3 validate_m2d2_continual.py --model_path "gpt2-large_task$idx"
+  rm -rf gpt2-large_task$idx
 
 done
