@@ -11,8 +11,8 @@ for idx in "${!datasets[@]}"; do
   deepspeed --num_gpus=1 run_clm.py \
   --deepspeed ds_config.json \
   --model_name_or_path gpt2-large \
-  --dataset_name "m2d2" \
-  --resume_from_checkpoint "$checkpoint"
+  --dataset_name "machelreid/m2d2" \
+  --resume_from_checkpoint "$checkpoint" \
   --dataset_config_name "$dataset_name" \
   --do_train \
   --do_eval \
